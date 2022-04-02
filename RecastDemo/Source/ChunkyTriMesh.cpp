@@ -21,11 +21,12 @@
 #include <stdlib.h>
 #include <math.h>
 
+// 三角形在xz平面投影的包围盒
 struct BoundsItem
 {
 	float bmin[2];
 	float bmax[2];
-	int i;
+	int i;  //由于会对包围盒按坐标排序，id记录了这个包围盒对应的输入三角形的id
 };
 
 static int compareItemX(const void* va, const void* vb)

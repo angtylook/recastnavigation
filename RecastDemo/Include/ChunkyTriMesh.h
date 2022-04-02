@@ -19,24 +19,26 @@
 #ifndef CHUNKYTRIMESH_H
 #define CHUNKYTRIMESH_H
 
+// BVH的节点结构
 struct rcChunkyTriMeshNode
 {
-	float bmin[2];
+	float bmin[2]; // 包含区域内所有三角形的包围盒
 	float bmax[2];
-	int i;
-	int n;
+	int i; // i为正表示是叶子节点；i为负表示是非叶子节点，大小等于在数组内的覆盖范围
+	int n; // 节点内包含的三角形个数
 };
 
+// 一棵BVH树, VH(Bounding volume hierarchy)即包围体层次结构，就是一种用树形结构组织管理空间内物体（几何体）的方法
 struct rcChunkyTriMesh
 {
 	inline rcChunkyTriMesh() : nodes(0), nnodes(0), tris(0), ntris(0), maxTrisPerChunk(0) {};
 	inline ~rcChunkyTriMesh() { delete [] nodes; delete [] tris; }
 
-	rcChunkyTriMeshNode* nodes;
-	int nnodes;
-	int* tris;
-	int ntris;
-	int maxTrisPerChunk;
+	rcChunkyTriMeshNode* nodes; //根节点
+	int nnodes; // 节点数量
+	int* tris;  // 按区域划分排序后的三角形集合
+	int ntris; // 三角形数量
+	int maxTrisPerChunk; // 叶子节点最多包含的三角形数
 
 private:
 	// Explicitly disabled copy constructor and copy assignment operator.
